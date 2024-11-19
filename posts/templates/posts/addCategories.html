@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+  <h1>Add Category</h1>
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="category" required />
+    <button class="btn btn-primary" style="width: 100px;" type="submit"></button>
+  </form>
+{% endblock %}

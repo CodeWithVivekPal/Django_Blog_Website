@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    flex: 1;
+
+
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+
+
+}
+
+.post-title {
+    margin: 20px 0;
+    color: rgb(35, 41, 56)
+}
+
+.post-title h1 {
+    font-size: 48px;
+    line-height: 52px;
+}
+.post-title p{
+    font-size: 16px;
+    line-height: 42px;
+}
+
+.post-img img {
+    max-width: 100%;
+    border-radius: 10px;
+    height: 50vh;
+}
+
+.post-details {
+    margin-top: 30px;
+    color: rgb(91, 98, 125);
+
+}

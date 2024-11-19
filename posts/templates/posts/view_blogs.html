@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block body %}
+  <div class="container">
+    <h2>Published Blogs</h2>
+    {% for blog in published_blogs %}
+      <div class="blog">
+        <h3>{{ blog.blog.blog_title }}</h3>
+        <p>{{ blog.blog.blog_content|truncatewords:30 }}</p>
+        <a href="{% url 'post' blog.blog.id %}">Read more</a>
+         <!-- Add a button to change it back to draft -->
+    <form action="{% url 'toggle_publish_status' blog.blog.id %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-warning">Move to Draft</button>
+    </form>
+
+        <!-- Edit Form -->
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="edit_blog_id" value="{{ blog.blog.id }}">
+          <input type="text" name="blog_title" value="{{ blog.blog.blog_title }}" placeholder="Edit Blog Title" required />
+          <textarea name="blog_content" placeholder="Edit Blog Content" required>{{ blog.blog.blog_content }}</textarea>
+          <select name="blog_cat" required>
+            {% for cat in categories %}
+              <option value="{{ cat.id }}" {% if cat.id == blog.blog.blog_cat.id %}selected{% endif %}>{{ cat.cat_name }}</option>
+            {% endfor %}
+          </select>
+          <input type="file" name="blog_image" placeholder="Edit Blog Image" />
+          <button type="submit">Update Blog</button>
+        </form>
+      </div>
+    {% endfor %}
+
+    <h2>Draft Blogs</h2>
+    {% for blog in draft_blogs %}
+      <div class="blog">
+        <h3>{{ blog.blog.blog_title }} (Draft)</h3>
+        <p>{{ blog.blog.blog_content|truncatewords:30 }}</p>
+        <a href="{% url 'post' blog.blog.id %}">Edit</a>
+        <a href="{% url 'publish_blog' blog.blog.id %}">Publish</a>
+
+        <!-- Edit Form -->
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="edit_blog_id" value="{{ blog.blog.id }}">
+          <input type="text" name="blog_title" value="{{ blog.blog.blog_title }}" placeholder="Edit Blog Title" required />
+          <textarea name="blog_content" placeholder="Edit Blog Content" required>{{ blog.blog.blog_content }}</textarea>
+          <select name="blog_cat" required>
+            {% for cat in categories %}
+              <option value="{{ cat.id }}" {% if cat.id == blog.blog.blog_cat.id %}selected{% endif %}>{{ cat.cat_name }}</option>
+            {% endfor %}
+          </select>
+          <input type="file" name="blog_image" placeholder="Edit Blog Image" />
+          <button type="submit">Update Blog</button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
