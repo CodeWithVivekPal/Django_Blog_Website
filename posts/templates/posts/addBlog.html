@@ -1,34 +1,38 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block css %} <link rel="stylesheet" href="{% static 'posts/addBlog.css' %}">
+{% endblock %}
 {% block body %}
   <div class="container">
-    <h1>{{ customuser.email }}</h1>
-    <form action="" method="post" enctype="multipart/form-data">
-      <div class="mb-3">
+    <div class="blog-form-container">
+      <h2>Create a New Blog</h2>
+      <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <label for="blog_title" class="form-label">Blog Title :</label>
-        <input type="text" required class="form-control" name="blog_title" placeholder="Title" />
-      </div>
-      <div class="mb-3">
-        <label for="blog_content" class="form-label">Blog Content :</label>
-        <textarea name="blog_content" required placeholder="Content" cols="30" rows="10"></textarea>
-      </div>
-      <div class="mb-3">
-        <label for="blog_cat" class="form-label">Blog Category :</label>
-        <select name="blog_cat">
-          <option value="Null">Select</option>
-          {% for cat in categories %}
-            <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="blog_image" required class="form-label">Choose file</label>
-        <input type="file" class="form-control" name="blog_image" placeholder="Image" />
-      </div>
-      <button type="submit" class="btn btn-primary">Add Blog</button>
-    </form>
-    <p>Blog saved as a draft. You can publish it later from your dashboard.</p>
+        <div class="form-input">
+          <label for="title">Blog Title</label>
+          <input type="text" id="title" name="blog_title" placeholder="Enter blog title" required />
+        </div>
+        <div class="form-input">
+          <label for="description">Blog Description</label>
+          <textarea id="description" name="blog_content" rows="5" placeholder="Enter blog description" required></textarea>
+        </div>
+        <div class="form-input">
+          <label for="image">Blog Image</label>
+          <input type="file" id="image" name="blog_image" accept="image/*" required />
+        </div>
+        <div class="form-input">
+          <label for="category">Category</label>
+          <select id="category" name="blog_cat" required>
+            <option value="" disabled selected>Select category</option>
+            {% for cat in categories %}
+              <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-input">
+          <button type="submit" class="submit-btn">Save Blog</button>
+        </div>
+      </form>
+    </div>
   </div>
 {% endblock %}

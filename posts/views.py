@@ -36,11 +36,11 @@ def post(request, id):
         # Fetch the blog using UserBlogs to ensure the user can view it
         user_blog = UserBlogs.objects.get(blog_id=id, user=request.user)
         queryset = user_blog.blog  # Get the associated Blog object
-
+        posts = Blog.objects.filter(userblogs__is_published=True)
         return render(
             request,
             "posts/post.html",
-            {"queryset": queryset, "page_name": "Post Page"},
+            {"queryset": queryset, "page_name": "Post Page" ,'posts':posts},
         )
 
     except UserBlogs.DoesNotExist:

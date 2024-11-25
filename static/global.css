@@ -1,109 +1,105 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html,
-body {
-  height: 100%;
-  font-family: 'Roboto', sans-serif;
-  overflow-x: hidden;
-
+  box-sizing: border-box
 }
 
 body {
-  display: flex;
-  flex-direction: column;
+  padding-top: 100px;
   min-height: 100vh;
-  font-family: 'Roboto', sans-serif;
-  background-color: #f7f9fc;
 }
 
-nav {
-  color: rgb(253, 254, 255);
-  margin: auto;
-  height: 60px;
-  margin: auto;
-  display: flex;
+.nav-bar {
   align-items: center;
-  max-width: 100%;
-
-}
-
-nav {
-
-  height: auto;
-  max-width: 100%;
+  justify-content: space-evenly;
+  position: fixed;
   top: 0;
-  font-family: 'Roboto', sans-serif;
-  padding: 20px;
+  background-color: #e6e6e6;
+  z-index: 1000;
+  max-height: 80px;
+  box-sizing: content-box;
 }
 
-nav a {
+.nav-bar a {
   text-decoration: none;
-  color: #1142a9
+  color: black;
 }
 
-.nav-box {
-  width: 80%;
-  display: flex;
+
+
+
+.logo-box img {
+  width: 90px;
+  background-color: #e6e6e6;
+}
+
+.left-nav-links {
+  max-width: 40%;
   align-items: center;
-  justify-content: space-between;
-  margin: auto;
 }
 
-.nav-box ul li {
-  list-style: none;
+.left-nav-links .links {
   margin: auto 10px;
 }
 
-.left-nav {
-  display: flex;
-  align-items: center;
-  color: rgb(255, 255, 255);
-  font-size: 14px;
-  font-weight: 500;
+.left-nav-links .links a {
+  margin: auto 10px;
 }
 
-.left-nav ul {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
+.right-nav-links {
+  max-width: 30%;
 }
 
-.right-nav {
-  display: flex;
-  align-items: center;
-  color: rgb(252, 253, 255);
-  font-weight: 500;
-  font-size: 14px;
-
-}
-
-.right-nav ul {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-}
-
-.right-nav button {
-  background-color: #5e5cfa;
-  border-color: #5e5cfa;
+.right-nav-links a {
   color: white;
-  padding: 10px 15px;
-  transition: 0.3s all;
+}
+
+.login-btn {
+  margin: 10px;
+  padding: 8px 20px;
+  background-color: rgb(176, 191, 196);
   border-radius: 5px;
+  font-weight: 700;
+}
+
+.signup-btn {
+  margin: 10px;
+  padding: 8px 20px;
+  background-color: rgb(0, 187, 255);
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.search-box {
+  max-width: 30%;
+  align-items: center;
+
 
 }
 
-.right-nav button:hover {
-  background-color: #5855eb;
-  color: #f1f1f1;
-  cursor: pointer;
+.search-box input {
+  padding: 10px;
+  font-weight: 600;
+  border-radius: 10px;
+  background: none;
+  color: blue;
+  margin: auto 10px;
+  border: none;
+  outline-color: #111010;
 
+
+}
+
+.search-box button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin: auto 10px;
+  border: none;
+  outline: none;
+  background-color: rgb(0, 187, 255);
+  text-align: center;
+  font-weight: 800;
+  color: white;
 }
 
 
@@ -139,70 +135,19 @@ nav a {
 
 }
 
-.home {
-  background-image: url('/media/Posts/tech_backgound.webp');
-}
-
-.home-section {
-  width: 75%;
-  margin: auto;
-
-}
-
-.home-section button {
-
-  background-color: #5e5cfa;
-  border-color: #5e5cfa;
-  color: white;
-  padding: 10px 15px;
-  transition: 0.3s all;
-  border-radius: 5px;
-  margin: 10px;
-
-
-}
-
-.left-side {
-  padding: 20px 0;
-  width: 60%;
-  font-weight: 500;
-  font-size: 36px;
-  line-height: 70px;
-  color: #00d200;
-}
-
 .footer {
+  background-color: #e6e6e6;
+  justify-content: space-evenly;
+  align-items: center;
+  position: sticky;
+  top: 100%;
   max-width: 100%;
-  background-color: rgb(207, 194, 177);
-  padding: 20px;
-  bottom: 0;
-  font-size: 16px;
+  width: 100%;
 
 
 }
 
-.footer-content {
-  box-sizing: border-box;
-  width: 80%;
-  margin: auto;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.left-footer ul {
-  display: flex;
-  align-items: center;
-
-}
-
-.left-footer a {
-  text-decoration: none;
-  color: #333;
-}
-
-.left-footer li {
-  list-style: none;
-  margin: 0 10px;
+.footer-left-links a,
+.footer-right-links a {
+  margin: 10px 20px;
 }

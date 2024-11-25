@@ -1,0 +1,95 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+}
+
+.register-form-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 400px;
+    height: auto;
+    /* Adjust height based on content */
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    background: white;
+    /* Ensure form stands out against blurred background */
+    border-radius: 10px;
+    /* Smooth corners */
+}
+
+.register-title {
+    font-size: 24px;
+    /* Slightly larger title */
+    font-weight: 700;
+    text-align: center;
+    /* Center align the title */
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-input {
+    margin-bottom: 20px;
+}
+
+.form-input span {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 10px auto;
+    color: #333;
+}
+
+.form-input input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    outline: none;
+    border-bottom: 3px solid blue;
+    box-sizing: border-box;
+}
+
+.register-form button {
+    width: 100%;
+    padding: 15px;
+    /* Larger button size */
+    background-color: #556cd6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.register-form button:hover {
+    background-color: #4455b6;
+}
+
+/* Style for the register link */
+.login-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.login-link a {
+    color: #556cd6;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}

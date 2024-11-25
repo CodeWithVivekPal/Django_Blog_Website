@@ -5,38 +5,29 @@
   <link rel="stylesheet" href="{% static 'posts/home.css' %}" />
 {% endblock %}
 
-{% block home %}
-  <div class="home-section">
-    <strong>Welcome VBlog | Blog Prospects Facts</strong>
-    <div class="left-side">
-      <h1>"We value your input! Share your thoughts on our posts, suggest topics you'd like to see covered "</h1>
-    </div>
-    <button type="button">Read the Post</button>
-  </div>
-{% endblock %}
-
 {% block body %}
-  <div class="container">
-    <div class="heading">
-      <h2>Blog Posts</h2>
+  <div class="content-container container">
+    <div class="trends-box">
+      <span>Trending Topics</span>
     </div>
-
-    {% if posts %}
-      {% for post in posts %}
-        <div class="card">
-          <div class="card-image">
-            <img src="{{ post.blog_image.url }}" alt="{{ post.blog_title }}" />
+    <div class="card-container d-flex">
+      {% if posts %}
+        {% for post in posts %}
+          <div class="card">
+            <div class="card-image">
+              <img src="{{ post.blog_image.url }}" alt="{{ post.blog_title }}" />
+            </div>
+            <div class="card-content">
+              <span class="card-tag">{{ post.blog_cat.cat_name }}</span>
+              <h3 class="card-title">{{ post.blog_title }}</h3>
+              <p class="card-date">{{ post.submitted_at|date:'F j, Y' }}</p>
+            </div>
+            <button type="button" onclick="location.href='{% url 'post' post.id %}'">Read the Post</button>
           </div>
-          <div class="card-content">
-            <span class="card-tag">{{ post.blog_cat.cat_name }}</span>
-            <h3 class="card-title">{{ post.blog_title }}</h3>
-            {% comment %} <p class="card-date">{{ post.submitted_at|date:'F j, Y' }}</p> {% endcomment %}
-          </div>
-          <button type="button" onclick="location.href='{% url 'post' post.id %}'">Read the Post</button>
-        </div>
-      {% endfor %}
-    {% else %}
-      <p>No published posts available.</p>
-    {% endif %}
+        {% endfor %}
+      {% else %}
+        <p>No published posts available.</p>
+      {% endif %}
+    </div>
   </div>
 {% endblock %}

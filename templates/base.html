@@ -7,80 +7,68 @@
     {% load static %}
 
     <link rel="stylesheet" href="{% static 'global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
     {% block css %}
 
     {% endblock %}
   </head>
 
   <body>
-    <div class="home">
-      <nav>
-        <div class="nav-box">
-          <div class="left-nav">
-            <div class="logo-nav">
-              <a href="#">Vblog</a>
-            </div>
-            <ul>
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li>
-                <a id="dropdown_btn" href="#">Categories</a>
-                <div class="menu" id="menu">
-                  {% for cat in categories|slice:':4' %}
-                    <a href="#">{{ cat.cat_name }}</a>
-                  {% endfor %}
-                </div>
-              </li>
-
-              <li>
-                <a href="{% url 'addBlog' %}">Add Blogs</a>
-              </li>
-              <li>
-                <a href="{% url 'contact' %}">Contact Us</a>
-              </li>
-            </ul>
-          </div>
-          <div class="right-nav">
-            <ul>
-              <li>
-                {% if request.user.is_authenticated %}
-                  <a href="{% url 'logout' %}">logout</a>
-                {% else %}
-                  <a href="{% url 'login' %}">Login</a>
-                {% endif %}
-              </li>
-              <li>
-                <button type="button">Sign Up For Free</button>
-              </li>
-            </ul>
-          </div>
+    <!-- NAVBAR STARTING -->
+    <div class="nav-bar d-flex container-fluid">
+      <div class="left-nav-links d-flex">
+        <div class="logo-box">
+          <img src="V-blogs-logo.png" alt="" />
         </div>
-      </nav>
-      {% block home %}
-
-      {% endblock %}
+        <div class="links">
+          <a href="{% url 'home_page' %}">Home</a>
+          <a id="dropdown_btn" href="#">Categories</a>
+          <div class="menu" id="menu">
+            {% for cat in categories|slice:':4' %}
+              <a href="#">{{ cat.cat_name }}</a>
+            {% endfor %}
+          </div>
+          {% if request.user.is_authenticated %}
+            <a href="{% url 'addBlog' %}">Add Blogs</a>
+            <a href="{% url 'view_blogs' %}">View Blogs</a>
+          {% endif %}
+          <a href="#">About Us</a>
+        </div>
+      </div>
+      <div class="search-box d-flex">
+        <form action="">
+          <input type="text" placeholder="Search" />
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <div class="right-nav-links d-flex">
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}">logout</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="login-btn">Login</a>
+          <a href="{% url 'register' %}" class="signup-btn">Sign Up</a>
+        {% endif %}
+      </div>
     </div>
+    <!-- NAVBAR ENDING -->
 
     {% block body %}
 
     {% endblock %}
-    <div class="footer">
-      <div class="footer-content">
-        <div class="left-footer">
-          <ul>
-            <li>
-              <a href="#">Contact Us</a>
-            </li>
-            <li>
-              <a href="#">About Us</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="right-footer">Copyright &copy; 2024 Vblog</div>
+    <!-- Footer Starting -->
+    <div class="footer d-flex">
+      <div class="footer-left-links d-flex">
+        <a href="#" class="nav-link">Contact US</a>
+        <a href="#" class="nav-link">About US</a>
+      </div>
+      <div class="middle-links">Copyright &copy; 2024 VBlogs</div>
+      <div class="footer-right-links d-flex">
+        <a href="# " class="nav-link">Privacy-Policy</a>
+        <a href="#" class="nav-link">Terms & Conditions</a>
       </div>
     </div>
+
+    <!-- Footer Ending -->
     <script>
       var menu = document.getElementById('menu')
       document.getElementById('dropdown_btn').addEventListener('click', function () {
@@ -93,5 +81,6 @@
         }
       })
     </script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
   </body>
 </html>

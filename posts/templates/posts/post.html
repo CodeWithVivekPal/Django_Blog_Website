@@ -1,24 +1,69 @@
+
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}
   <link rel="stylesheet" href="{% static 'posts/post.css' %}" />
 {% endblock %}
 {% block body %}
-  <div class="container">
-    <div class="post">
-      <div class="post-title">
-        <h1>{{ queryset.blog_title|title }}</h1>
-        <p>{{ queryset.submitted_at|date:' F j,Y ' }}</p>
-        <p>
-          <img src="/media/Posts/user.png" alt="" width="50" /> Chris
-        </p>
-      </div>
-      <div class="post-img">
-        <img src="/media/{{ queryset.blog_image|title }}" alt="{{ queryset.blog_image|title }}" />
-      </div>
-      <div class="post-content">
-        <div class="post-details">{{ queryset.blog_content|safe }}</div>
-      </div>
+<div class="container d-flex">
+    <div class="post col-8">
+        <div class="post-category">
+            <span>Category ></span>
+            <span>{{ queryset.blog_cat.cat_name }}</span>
+        </div>
+        <div class="post-title ">
+            <span>{{ queryset.blog_title|title }}</span>
+        </div>
+        <div class="post-user-info">
+            <img src="{% static 'user.png' %}" alt="">
+            <span>by</span>
+            <span class="user-name">Vivek -</span>
+            <span class="post-date">{{ queryset.submitted_at|date:' F j,Y ' }} </span>
+        </div>
+        <div class="post-details">
+          <div class="blog_title">
+          <span>{{ queryset.blog_title|title }}</span>
+        </div>
+          <img
+          src=" {{ queryset.blog_image.url}}"
+          class="img-fluid rounded-top"
+          alt=""
+        />
+            {{ queryset.blog_content|safe }}
+           
+           
+
+        </div>
     </div>
-  </div>
+    <div class="popular-post  col-4">
+        <span class="more-post">More Post You Might Like</span>
+        <div class="card-container d-flex">
+          {% for post in posts %}
+          <div class="card">
+            <div class="card-image">
+              <img src="{{ post.blog_image.url }}" alt="{{ post.blog_title }}" />
+            </div>
+            <div class="card-content">
+              <span class="card-tag">{{ post.blog_cat.cat_name }}</span>
+              <h3 class="card-title">{{ post.blog_title }}</h3>
+              <p class="card-date">{{ post.submitted_at|date:'F j, Y' }}</p>
+            </div>
+            <button type="button" onclick="location.href='{% url 'post' post.id %}'">Read the Post</button>
+          </div>
+        {% endfor %}
+        </div>
+
+
+    </div>
+    <div class="comment-box col-8 ">
+        <form action="">
+            <span>Comments:</span>
+            <input type="text" placeholder="Add Comments">
+            <button>Submit</button>
+        </form>
+    </div>
+</div>
+
+
+</div>
 {% endblock %}
