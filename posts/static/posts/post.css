@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 /*Card Container and  Cards Starts*/
 
 .card-container {
@@ -25,9 +27,18 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
+.card-image {
+    width: calc(100%);
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .card-image img {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
 }
 
 .card-content {
@@ -132,7 +143,7 @@
 }
 
 .post-details {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: "Noto Sans", sans-serif;
 
 }
 
@@ -142,6 +153,7 @@
     height: 400px;
     margin: 10px auto;
 }
+
 .comment-box {
     display: flex;
     flex-direction: column;
@@ -158,15 +170,16 @@
     font-weight: bold;
     margin-bottom: 10px;
 }
-    
+
 .comment-box input[type="text"] {
-    width: 100%; 
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
 }
-.comment-box button{
+
+.comment-box button {
     padding: 10px 40px;
     margin: 10px;
     border-radius: 5px;
@@ -174,7 +187,14 @@
     background-color: #f6f6f6;
     font-weight: 600;
 }
-.blog_title{
-    font-size: 32px ;
+
+.blog_title {
+    font-size: 32px;
     padding: 10px;
+}
+
+.post-details p {
+    font-size: 16px;
+    font-weight: 400;
+
 }

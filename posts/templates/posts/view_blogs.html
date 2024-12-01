@@ -1,58 +1,144 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'posts/view_blogs.css' %}" />
+{% endblock %}
 {% block body %}
   <div class="container">
-    <h2>Published Blogs</h2>
-    {% for blog in published_blogs %}
-      <div class="blog">
-        <h3>{{ blog.blog.blog_title }}</h3>
-        <p>{{ blog.blog.blog_content|truncatewords:30 }}</p>
-        <a href="{% url 'post' blog.blog.id %}">Read more</a>
-         <!-- Add a button to change it back to draft -->
-    <form action="{% url 'toggle_publish_status' blog.blog.id %}" method="post">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-warning">Move to Draft</button>
-    </form>
+    <div class="draft-title">
+      <span>Draft Blogs</span>
+    </div>
+    <div class="draft-blog-container">
+      {% for blog in draft_blogs %}
+        <div class="blog-card ">
+          <div class="blog-image">
+            <img src="{{ blog.blog.blog_image.url }}" alt="Blog Image" />
+          </div>
+          <div class="blog-details">
+            <div class="blog-title">
+              <span>{{ blog.blog.blog_title }}</span>
+            </div>
+          </div>
+          <div class="button-row">
+            <a href="#" class="edit-link" data-id="{{ blog.blog.id }}">Edit</a>
+            <input type="hidden" id="blog-{{ blog.blog.id }}" data-title="{{ blog.blog.blog_title }}" data-content="{{ blog.blog.blog_content }}" data-category="{{ blog.blog.blog_cat.id }}" />
+            <form action="{% url 'delete_blog' blog.blog.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit">Delete</button>
+            </form>
 
-        <!-- Edit Form -->
-        <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          <input type="hidden" name="edit_blog_id" value="{{ blog.blog.id }}">
-          <input type="text" name="blog_title" value="{{ blog.blog.blog_title }}" placeholder="Edit Blog Title" required />
-          <textarea name="blog_content" placeholder="Edit Blog Content" required>{{ blog.blog.blog_content }}</textarea>
-          <select name="blog_cat" required>
-            {% for cat in categories %}
-              <option value="{{ cat.id }}" {% if cat.id == blog.blog.blog_cat.id %}selected{% endif %}>{{ cat.cat_name }}</option>
-            {% endfor %}
-          </select>
-          <input type="file" name="blog_image" placeholder="Edit Blog Image" />
-          <button type="submit">Update Blog</button>
-        </form>
-      </div>
-    {% endfor %}
+            <form action="{% url 'publish_blog' blog.blog.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit">Publish</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
 
-    <h2>Draft Blogs</h2>
-    {% for blog in draft_blogs %}
-      <div class="blog">
-        <h3>{{ blog.blog.blog_title }} (Draft)</h3>
-        <p>{{ blog.blog.blog_content|truncatewords:30 }}</p>
-        <a href="{% url 'post' blog.blog.id %}">Edit</a>
-        <a href="{% url 'publish_blog' blog.blog.id %}">Publish</a>
+    <div class="publish-title">
+      <span>Published Blogs</span>
+    </div>
+    <div class="publish-blog-container">
+      {% for blog in published_blogs %}
+        <div class="blog-card d-flex">
+          <div class="blog-image">
+            <img src="{{ blog.blog.blog_image.url }}" alt="Blog Image" />
+          </div>
+          <div class="blog-details">
+            <div class="blog-title">
+              <span>{{ blog.blog.blog_title }}</span>
+              <div class="blog-date">Published Date: {{ blog.published_date|date:'d M Y' }}</div>
+            </div>
+          </div>
+          <div class="button-row">
+            <a href="#" class="edit-link" data-id="{{ blog.blog.id }}">Edit</a>
+            <input type="hidden" id="blog-{{ blog.blog.id }}" data-title="{{ blog.blog.blog_title }}" data-content="{{ blog.blog.blog_content }}" data-category="{{ blog.blog.blog_cat.id }}" />
+            <form action="{% url 'delete_blog' blog.blog.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit">Delete</button>
+            </form>
 
-        <!-- Edit Form -->
-        <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          <input type="hidden" name="edit_blog_id" value="{{ blog.blog.id }}">
-          <input type="text" name="blog_title" value="{{ blog.blog.blog_title }}" placeholder="Edit Blog Title" required />
-          <textarea name="blog_content" placeholder="Edit Blog Content" required>{{ blog.blog.blog_content }}</textarea>
-          <select name="blog_cat" required>
-            {% for cat in categories %}
-              <option value="{{ cat.id }}" {% if cat.id == blog.blog.blog_cat.id %}selected{% endif %}>{{ cat.cat_name }}</option>
-            {% endfor %}
-          </select>
-          <input type="file" name="blog_image" placeholder="Edit Blog Image" />
-          <button type="submit">Update Blog</button>
-        </form>
-      </div>
-    {% endfor %}
+            <form action="{% url 'toggle_publish_status' blog.blog.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit">
+                {% if blog.is_published %}
+                  Revert
+                {% else %}
+                  Publish
+                {% endif %}
+              </button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </div>
+
+  <!-- Modal for Editing Blogs -->
+  <div class="edit-modal invisible">
+    <div class="blog-form-container">
+      <button class="close-btn">X</button>
+      <h2>Edit Blog</h2>
+      <form action="{% url 'edit_blog' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="edit_blog_id" id="edit_blog_id" />
+        <div class="form-input">
+          <label for="edit_title">Blog Title</label>
+          <input type="text" id="edit_title" name="blog_title" placeholder="Enter blog title" required />
+        </div>
+        <div class="form-input">
+          <label for="edit_description">Blog Description</label>
+          <textarea id="edit_description" name="blog_content" rows="5" placeholder="Enter blog description" required></textarea>
+        </div>
+        <div class="form-input">
+          <label for="edit_image">Blog Image</label>
+          <input type="file" id="edit_image" name="blog_image" accept="image/*" />
+        </div>
+        <div class="form-input">
+          <label for="edit_category">Category</label>
+          <select id="edit_category" name="blog_cat" required>
+            {% for cat in categories %}
+              <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-input">
+          <button type="submit" class="submit-btn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+{% block js %}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const editLinks = document.querySelectorAll('.edit-link')
+      const editModal = document.querySelector('.edit-modal')
+      const closeBtn = document.querySelector('.close-btn')
+    
+      editLinks.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          event.preventDefault() // Prevent the default anchor behavior
+          const blogId = link.getAttribute('data-id')
+          const blogTitle = document.querySelector(`#blog-${blogId}`).dataset.title
+          const blogContent = document.querySelector(`#blog-${blogId}`).dataset.content
+          const blogCategory = document.querySelector(`#blog-${blogId}`).dataset.category
+    
+          document.getElementById('edit_blog_id').value = blogId
+          document.getElementById('edit_title').value = blogTitle
+          document.getElementById('edit_description').value = blogContent
+          document.getElementById('edit_category').value = blogCategory
+    
+          editModal.classList.add('visible')
+          editModal.classList.remove('invisible')
+        })
+      })
+    
+      closeBtn.addEventListener('click', () => {
+        editModal.classList.remove('visible')
+        editModal.classList.add('invisible')
+      })
+    })
+  </script>
 {% endblock %}

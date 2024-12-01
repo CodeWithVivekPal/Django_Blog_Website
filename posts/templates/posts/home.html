@@ -15,14 +15,14 @@
         {% for post in posts %}
           <div class="card">
             <div class="card-image">
-              <img src="{{ post.blog_image.url }}" alt="{{ post.blog_title }}" />
+              <img onclick="location.href='{% url 'post' post.id %}'" src="{{ post.blog_image.url }}" alt="{{ post.blog_title }}" />
             </div>
             <div class="card-content">
               <span class="card-tag">{{ post.blog_cat.cat_name }}</span>
-              <h3 class="card-title">{{ post.blog_title }}</h3>
+              <h3 class="card-title"><a href="{% url 'post' post.id %}">{{ post.blog_title }} </a></h3>
               <p class="card-date">{{ post.submitted_at|date:'F j, Y' }}</p>
             </div>
-            <button type="button" onclick="location.href='{% url 'post' post.id %}'">Read the Post</button>
+            {% comment %} <button type="button" onclick="location.href='{% url 'post' post.id %}'">Read the Post</button> {% endcomment %}
           </div>
         {% endfor %}
       {% else %}

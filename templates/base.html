@@ -43,7 +43,7 @@
       </div>
       <div class="right-nav-links d-flex">
         {% if request.user.is_authenticated %}
-          <a href="{% url 'logout' %}">logout</a>
+          <a href="{% url 'logout' %}" class="logout-btn">logout</a>
         {% else %}
           <a href="{% url 'login' %}" class="login-btn">Login</a>
           <a href="{% url 'register' %}" class="signup-btn">Sign Up</a>
@@ -67,6 +67,9 @@
         <a href="#" class="nav-link">Terms & Conditions</a>
       </div>
     </div>
+    {% block js %}
+
+    {% endblock %}
 
     <!-- Footer Ending -->
     <script>

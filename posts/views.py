@@ -40,13 +40,12 @@ def post(request, id):
         return render(
             request,
             "posts/post.html",
-            {"queryset": queryset, "page_name": "Post Page" ,'posts':posts},
+            {"queryset": queryset, "page_name": "Post Page", "posts": posts},
         )
 
     except UserBlogs.DoesNotExist:
         messages.error(request, "You do not have access to this blog.")
         return redirect(reverse("home"))
-
 
 
 def direct_id(request, id):
@@ -56,7 +55,9 @@ def direct_id(request, id):
 
 @login_required(login_url="/login/")
 def addBlog(request):
-    url = reverse("view_blogs")  # Redirect to the page where users can manage their drafts
+    url = reverse(
+        "view_blogs"
+    )  # Redirect to the page where users can manage their drafts
     categories = Category.objects.all()
 
     if request.method == "POST":
@@ -118,8 +119,11 @@ def publish_blog(request, blog_id):
         return redirect(reverse("view_blogs"))
 
     except UserBlogs.DoesNotExist:
-        messages.error(request, "Blog not found or you do not have permission to publish it.")
+        messages.error(
+            request, "Blog not found or you do not have permission to publish it."
+        )
         return redirect(reverse("addBlog"))
+
 
 @login_required(login_url="/login/")
 def view_blogs(request):
@@ -130,19 +134,19 @@ def view_blogs(request):
     draft_blogs = user_blogs.filter(is_published=False)
 
     # Handle editing a blog
-    if request.method == "POST" and 'edit_blog_id' in request.POST:
-        blog_id = request.POST.get('edit_blog_id')
-        
+    if request.method == "POST" and "edit_blog_id" in request.POST:
+        blog_id = request.POST.get("edit_blog_id")
+
         try:
             # Fetch the UserBlogs object for the specific blog and user
             user_blog = UserBlogs.objects.get(blog_id=blog_id, user=request.user)
             blog_to_edit = user_blog.blog  # Access the related Blog object
-            
-            blog_title = request.POST.get('blog_title')
-            blog_content = request.POST.get('blog_content')
-            blog_cat_id = request.POST.get('blog_cat')
-            blog_image = request.FILES.get('blog_image')
-            
+
+            blog_title = request.POST.get("blog_title")
+            blog_content = request.POST.get("blog_content")
+            blog_cat_id = request.POST.get("blog_cat")
+            blog_image = request.FILES.get("blog_image")
+
             # Update the blog details
             blog_to_edit.blog_title = blog_title
             blog_to_edit.blog_content = blog_content
@@ -154,14 +158,22 @@ def view_blogs(request):
             messages.success(request, "Blog updated successfully!")
             return redirect(reverse("view_blogs"))
         except UserBlogs.DoesNotExist:
-            messages.error(request, "Blog not found or you do not have permission to edit it.")
+            messages.error(
+                request, "Blog not found or you do not have permission to edit it."
+            )
             return redirect(reverse("view_blogs"))
 
     return render(
         request,
         "posts/view_blogs.html",
-        {"published_blogs": published_blogs, "draft_blogs": draft_blogs, "page_name": "Your Blogs"},
+        {
+            "published_blogs": published_blogs,
+            "draft_blogs": draft_blogs,
+            "page_name": "Your Blogs",
+        },
     )
+
+
 @login_required(login_url="/login/")
 def toggle_publish_status(request, blog_id):
     try:
@@ -182,7 +194,9 @@ def toggle_publish_status(request, blog_id):
         return redirect(reverse("view_blogs"))
 
     except UserBlogs.DoesNotExist:
-        messages.error(request, "Blog not found or you do not have permission to modify it.")
+        messages.error(
+            request, "Blog not found or you do not have permission to modify it."
+        )
         return redirect(reverse("view_blogs"))
 
 
@@ -237,3 +251,31 @@ def logout_page(request):
 def contact_page(request):
 
     return render(request, "posts/contact.html", {"page_name": "Contact US"})
+
+
+def edit_blog(request):
+    if request.method == "POST":
+        blog_id = request.POST.get("edit_blog_id")
+        blog = Blog.objects.get(id=blog_id)
+
+        # Update fields
+        blog.blog_title = request.POST.get("blog_title")
+        blog.blog_content = request.POST.get("blog_content")
+        blog.blog_cat_id = request.POST.get(
+            "blog_cat"
+        )  # Assuming categories are stored by ID
+
+        # Update image if provided
+        if "blog_image" in request.FILES:
+            blog.blog_image = request.FILES["blog_image"]
+
+        blog.save()
+        return redirect("view_blogs")  # Redirect back to blogs page
+    return redirect("home_page")
+
+
+def delete_blog(request, blog_id):
+    blog = Blog.objects.get(id=blog_id)
+    if request.method == "POST":
+        blog.delete()
+    return redirect("view_blogs")

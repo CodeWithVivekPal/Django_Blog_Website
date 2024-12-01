@@ -38,7 +38,7 @@
     <div class="popular-post  col-4">
         <span class="more-post">More Post You Might Like</span>
         <div class="card-container d-flex">
-          {% for post in posts %}
+          {% for post in posts|slice:':2' %}
           <div class="card">
             <div class="card-image">
               <img src="{{ post.blog_image.url }}" alt="{{ post.blog_title }}" />
